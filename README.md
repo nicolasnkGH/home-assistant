@@ -6,6 +6,7 @@ This guide will walk you through the steps required to securely access your Home
 - A domain name (can be a paid or free domain).
 - Home Assistant running on your local network.
 - Cloudflare account and Cloudflare Tunnel setup.
+- Setting up Cloudflare Tunnel https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/
 
 ## 🛠️ How to Set Up:
 
@@ -19,10 +20,15 @@ This guide will walk you through the steps required to securely access your Home
 
    ```yaml
    # Cloudflare remote access
-   http:
-     use_x_forwarded_for: true
-     trusted_proxies:
-       - 172.30.33.0/24
+http:
+  # Enable support for the X-Forwarded-For header to track the original IP address of requests.
+  use_x_forwarded_for: true
+
+  # Define trusted proxies. This ensures that only requests coming from the specified IP range are allowed.
+  # This IP range is typically used by the Cloudflare Tunnel add-on.
+  trusted_proxies:
+    - 172.30.33.0/24  # The IP range used by the Cloudflare Tunnel to securely forward traffic to your Home Assistant instance
+
 ```
 
 
